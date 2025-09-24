@@ -1,16 +1,17 @@
-import { getTopHeadlines } from "@/lib/news";
+import { getNewsHeadline } from "@/lib/newsapi";
+import Link from "next/link";
 
 export default async function BlogPage() {
-  const articles = await getTopHeadlines();
+  const articles = await getNewsHeadline();
 
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Latest News (Server Fetch)</h1>
       <div className="grid md:grid-cols-2 gap-6">
         {articles.map((article, idx) => (
-          <a
+          <Link
             key={idx}
-            href={article.url}
+            href={`/blog/${article.title}`}
             target="_blank"
             className="border rounded-lg shadow hover:shadow-lg overflow-hidden"
           >
@@ -25,7 +26,7 @@ export default async function BlogPage() {
               <h2 className="font-semibold text-lg">{article.title}</h2>
               <p className="text-sm text-gray-600">{article.description}</p>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>
