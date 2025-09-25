@@ -3,7 +3,14 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+// STORE
+import useCountStore from "@/stores/countStore";
+import useAuthStore from "@/stores/authStore";
+
 export default function Navbar() {
+  const count = useCountStore((s) => s.count);
+  const login = useAuthStore((s) => s.login);
+
   const router = useRouter();
   return (
     <nav className="bg-red-300">
@@ -11,7 +18,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="text-xl font-bold">
-            <span>DashApp</span>
+            <span>DashApp {count}</span>
           </Link>
 
           {/* Navigation page */}
@@ -29,7 +36,10 @@ export default function Navbar() {
 
           {/* Action Button */}
           <div className="flex items-center gap-4">
-            <button className="bg-slate-200 rounded-xl shadow px-3 py-2">
+            <button
+              className="bg-slate-200 rounded-xl shadow px-3 py-2"
+              onClick={() => login("budi@gmail.com", "budi")}
+            >
               Sign In
             </button>
             <button

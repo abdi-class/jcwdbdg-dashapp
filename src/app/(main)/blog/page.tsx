@@ -1,5 +1,6 @@
 import * as React from "react";
 import { getNewsHeadline } from "@/lib/newsapi";
+import Link from "next/link";
 
 export default async function BlogPage() {
   const articles = await getNewsHeadline();
@@ -7,14 +8,21 @@ export default async function BlogPage() {
   const printNews = () => {
     return articles.map((value, index) => {
       return (
-        <div key={index}>
-          <img
-            src={value.urlToImage}
-            alt={value.title}
-            className="w-full h-48 object-cover"
-          />
-          <h2 className="text-lg font-semibold">{value.title}</h2>
-        </div>
+        <Link
+          key={index}
+          href={`/blog/${value.title}`}
+          target="_blank"
+          className="border rounded-lg shadow hover:shadow-lg overflow-hidden"
+        >
+          <div>
+            <img
+              src={value.urlToImage}
+              alt={value.title}
+              className="w-full h-48 object-cover"
+            />
+            <h2 className="text-lg font-semibold">{value.title}</h2>
+          </div>
+        </Link>
       );
     });
   };
