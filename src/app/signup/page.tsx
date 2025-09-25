@@ -1,8 +1,10 @@
 "use client";
 import axios from "axios";
 import * as React from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const inUsernameRef = React.useRef<HTMLInputElement>(null);
   const inEmailRef = React.useRef<HTMLInputElement>(null);
   const inPasswordRef = React.useRef<HTMLInputElement>(null);
@@ -20,6 +22,7 @@ export default function SignUpPage() {
 
       console.log(res.data); // untuk memeriksa apakah response success
       alert("Registrasi berhasil");
+      router.replace("/");
     } catch (error) {
       console.log(error);
       alert("Registrasi gagal");
