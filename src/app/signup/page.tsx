@@ -47,7 +47,11 @@ export default function SignUpPage() {
           className="shadow p-2 rounded"
           ref={inPasswordRef}
         />
-        <button type="button" className="bg-slate-600 text-white py-2 rounded">
+        <button
+          type="button"
+          onClick={onBtSignup}
+          className="bg-slate-600 text-white py-2 rounded"
+        >
           Register
         </button>
       </form>
