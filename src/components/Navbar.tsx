@@ -9,7 +9,7 @@ import useAuthStore from "@/stores/authStore";
 
 export default function Navbar() {
   const count = useCountStore((s) => s.count);
-  const login = useAuthStore((s) => s.login);
+  const username = useAuthStore((s) => s.name);
 
   const router = useRouter();
   return (
@@ -34,22 +34,25 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Action Button */}
-          <div className="flex items-center gap-4">
-            <button
-              className="bg-slate-200 rounded-xl shadow px-3 py-2"
-              onClick={() => router.push("/signin")}
-            >
-              Sign In
-            </button>
-            <button
-              type="button"
-              onClick={() => router.push("/signup")}
-              className="bg-slate-200 rounded-xl shadow px-3 py-2"
-            >
-              Sign Up
-            </button>
-          </div>
+          {username ? (
+            <span>{username}</span>
+          ) : (
+            <div className="flex items-center gap-4">
+              <button
+                className="bg-slate-200 rounded-xl shadow px-3 py-2"
+                onClick={() => router.push("/signin")}
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/signup")}
+                className="bg-slate-200 rounded-xl shadow px-3 py-2"
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </nav>
