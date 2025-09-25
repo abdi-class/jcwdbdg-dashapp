@@ -8,6 +8,22 @@ export default function SignInPage() {
 
   async function onBtSignIn() {
     try {
+      const res = await axios.get(
+        "https://calmingstore-us.backendless.app/api/data/accounts",
+        {
+          params: {
+            where: `email='${inEmailRef.current?.value}' AND password='${inPasswordRef.current?.value}'`,
+          },
+        }
+      );
+
+      // jika hasil response === array kosong, maka lempar ke catch error
+      if (!res.data.length) {
+        throw new Error("Account not exist");
+      }
+
+      console.log("LOG RES SIGNIN", res.data);
+      alert("Signin berhasil");
     } catch (error) {
       console.log(error);
       alert("Signin gagal");
