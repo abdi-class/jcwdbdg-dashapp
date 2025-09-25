@@ -38,7 +38,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <button
               className="bg-slate-200 rounded-xl shadow px-3 py-2"
-              onClick={() => login("budi@gmail.com", "budi")}
+              onClick={() => router.push("/signin")}
             >
               Sign In
             </button>
