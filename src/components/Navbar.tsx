@@ -9,9 +9,38 @@ import useAuthStore from "@/stores/authStore";
 
 export default function Navbar() {
   const count = useCountStore((s) => s.count);
-  const username = useAuthStore((s) => s.name);
+  const { name, login, logout } = useAuthStore();
 
   const router = useRouter();
+
+  async function keepLogin() {
+    try {
+      // 1. Ambil data dari localStorage
+      if (localStorage.getItem("auth")) {
+        const dataLocal = JSON.parse(localStorage.getItem("auth") || "");
+
+        // 2. Gunakan data dari localStorage untuk call API mencari data ke backendless
+        const res = await fetch(
+          `https://calmingstore-us.backendless.app/api/data/accounts?where=${encodeURIComponent(
+            `objectId='${dataLocal?.objectId}'`
+          )}`
+        );
+        const data = await res.json();
+
+        // 3. Pastikan datanya ada lalu simpan ulang ke zustand
+        if (data[0]) {
+          login(data[0].email, data[0].username);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  React.useEffect(function () {
+    keepLogin();
+  }, []);
+
   return (
     <nav className="bg-red-300">
       <div className="container mx-auto px-4">
@@ -34,8 +63,20 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {username ? (
-            <span>{username}</span>
+          {name ? (
+            <div className="flex items-center">
+              <span>{name}</span>
+              <button
+                type="button"
+                className="bg-slate-200 rounded-xl shadow px-3 py-2"
+                onClick={() => {
+                  logout();
+                  localStorage.removeItem("auth");
+                }}
+              >
+                Logout
+              </button>
+            </div>
           ) : (
             <div className="flex items-center gap-4">
               <button

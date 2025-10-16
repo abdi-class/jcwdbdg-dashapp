@@ -4,6 +4,7 @@ interface IAuthStore {
   email: string;
   name: string;
   login: (emailParam: string, nameParam: string) => void;
+  logout: () => void;
 }
 
 const useAuthStore = create<IAuthStore>((set) => ({
@@ -16,6 +17,9 @@ const useAuthStore = create<IAuthStore>((set) => ({
     if (emailParam) {
       set(() => ({ email: emailParam, name: nameParam }));
     }
+  },
+  logout: () => {
+    set(() => ({ email: "", name: "" }));
   },
 }));
 

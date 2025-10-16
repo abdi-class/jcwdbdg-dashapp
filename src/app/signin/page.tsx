@@ -11,28 +11,30 @@ export default function SignInPage() {
   const login = useAuthStore((s) => s.login);
   async function onBtSignIn() {
     try {
-      // const res = await axios.get(
-      //   "https://calmingstore-us.backendless.app/api/data/accounts",
-      //   {
-      //     params: {
-      //       where: `email='${inEmailRef.current?.value}' AND password='${inPasswordRef.current?.value}'`,
-      //     },
-      //   }
-      // );
+      // 1. mencocokkan data email dan password dengan yg ada dibackendless
+      const res = await fetch(`http://localhost:3300/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: inEmailRef.current?.value,
+          password: inPasswordRef.current?.value,
+        }),
+      });
 
-      const res = await fetch(
-        `https://calmingstore-us.backendless.app/api/data/accounts?where=${encodeURIComponent(
-          `email='${inEmailRef.current?.value}' AND password='${inPasswordRef.current?.value}'`
-        )}`
-      );
-
+      // 2. jika data account tidak berhasil didapatkan maka muncul alert error
       // jika hasil response === array kosong, maka lempar ke catch error
       const data = await res.json();
       if (!data.length) {
         throw new Error("Account not exist");
       }
+
+      // 3. jika data berhasil didapatkan maka tampilkan alert dan simpan datanya ke global state
       console.log("LOG RES SIGNIN", data);
       alert("Signin berhasil");
+      // Store data to localStorage
+      localStorage.setItem("auth", JSON.stringify(data[0]));
       login(data[0].email, data[0].username);
       router.replace("/");
     } catch (error) {

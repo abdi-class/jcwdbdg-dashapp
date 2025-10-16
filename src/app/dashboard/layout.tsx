@@ -1,9 +1,15 @@
 import Sidebar from "@/components/Sidebar";
+import { Metadata } from "next";
 import * as React from "react";
 
 export interface IDashboardLayoutProps {
   children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+  title: "Dashboard Menu",
+  description: "Access all management menu",
+};
 
 export default function DashboardLayout(props: IDashboardLayoutProps) {
   return (

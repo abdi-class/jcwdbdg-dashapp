@@ -11,14 +11,11 @@ export default function SignUpPage() {
 
   async function onBtSignup() {
     try {
-      const res = await axios.post(
-        "https://calmingstore-us.backendless.app/api/data/accounts",
-        {
-          username: inUsernameRef.current?.value,
-          email: inEmailRef.current?.value,
-          password: inPasswordRef.current?.value,
-        }
-      );
+      const res = await axios.post("http://localhost:3300/auth/regis", {
+        username: inUsernameRef.current?.value,
+        email: inEmailRef.current?.value,
+        password: inPasswordRef.current?.value,
+      });
 
       console.log(res.data); // untuk memeriksa apakah response success
       alert("Registrasi berhasil");
